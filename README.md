@@ -201,4 +201,23 @@ Mas se ver apenas `state` solto em um método, pode ser difícil associá-lo à 
 ## 3. Estrutura Switch
 
 ### 3.1 Evite quando puder
-   * É difícil criar uma estrutura `switch` pequena, pois elas sempre fazem 'n' coisas, o que vai contra a regra 'Faça apenas uma coisa' (2.3)
+   * É difícil criar uma estrutura `switch` pequena, pois elas sempre fazem 'n' coisas, o que vai contra a regra 'Faça apenas uma coisa' (2.3), além de ir contra o princípio de 'Aberto-Fechado', pois precisa alterá-lo, adicionando novos `cases` sempre que um novo argumento é adicionado
+
+### 3.2 Parâmetros de funções
+   * A quantidade ideal de parêmetros para uma função é zero (nulo); depois vem um (mônade); depois dois (díade). Sempre evite três (tríade) parêmtros se possível. Para mais parâmetros (políade), deve se ter um motivo bem especial
+
+#### 3.2.1 Parâmetros lógicos
+   * Passar valores booleano como parâmetro não é uma boa prática, pois é um indicativo de que a função faz uma coisa (se for `true`) ou outra (se for `false`)
+
+#### 3.2.2 Parâmetros Mônades
+   * Pode ser usado no contexto de uma pergunta para aquele parâmetro (Exemplo 3.1*) ou você pode estar tranformando-o em outra coisa e retornando-o (Exemplo 3.2*)
+
+* Exemplo 3.1*
+``` java
+boolean fileExists("MyFile");
+```
+
+* Exemplo 3.2*
+``` java
+InputStream fileOpen("MyFile"); // Transforma a `String` do nome de um arquivo em um valor retornado por InputStream
+```
