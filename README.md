@@ -221,3 +221,21 @@ boolean fileExists("MyFile");
 ``` java
 InputStream fileOpen("MyFile"); // Transforma a `String` do nome de um arquivo em um valor retornado por InputStream
 ```
+
+#### 3.2.3 Parâmetros Díades
+   * Utiliza-se parâmetros díades quando ambos os valores são 'componentes de um único valor'! (Exemplo 3.3;3.4*)
+
+* Exemplo 3.3*
+``` java
+// Bad
+// `outputStream` e `name` não são components do mesmo valor
+writeField(outputStream, name);
+
+// Good
+outputStream.writeField(name); // Dessa forma, você transforma o `writeField` em um membro de `outputStream`
+```
+
+* Exemplo 3.4*
+``` java
+new Point(0, 0); // Considerando um plano cartesiano, é natural que receba as coordenadas 'x' e 'y'
+```
