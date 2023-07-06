@@ -168,7 +168,7 @@ ControladorDeProtocolo
 ```
 
 ### 1.12 Não faça trocadilhos
-   * Evite usar a mesma palavra para dois conceitos diferentes (oposto do 'Selecione uma palavra por conceito')
+   * Evite usar a mesma palavra para dois conceitos diferentes (oposto da regra 'Selecione uma palavra por conceito' (1.11))
 
 ### 1.13 Use nomes a partir do domínio da solução
    * Não é um mau hábito utilizar termos técnicos de informática, algoritmo e outros termos que pessoas leigas não entenderiam, já que apenas outros programadores lerão nosso código.
@@ -197,3 +197,8 @@ Mas se ver apenas `state` solto em um método, pode ser difícil associá-lo à 
 
 ### 2.4 Ler o código de cima para baixo: Regra Decrescente
    * O código deve ser lido de cima para baixo, onde cada função seja seguida para o próximo nível conforme a ordem das funções seguindo uma 'hierarquia' (Regra Decrescente)
+
+## 3. Estrutura Switch
+
+### 3.1 Evite quando puder
+   * É difícil criar uma estrutura `switch` pequena, pois elas sempre fazem 'n' coisas, o que vai contra a regra 'Faça apenas uma coisa' (2.3)
