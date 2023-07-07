@@ -239,3 +239,6 @@ outputStream.writeField(name); // Dessa forma, você transforma o `writeField` e
 ``` java
 new Point(0, 0); // Considerando um plano cartesiano, é natural que receba as coordenadas 'x' e 'y'
 ```
+
+#### 3.3 Evite efeitos colaterais
+   * "Sua função promete fazer apenas"
