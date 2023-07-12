@@ -198,34 +198,29 @@ Mas se ver apenas `state` solto em um método, pode ser difícil associá-lo à 
 ### 2.4 Ler o código de cima para baixo: Regra Decrescente
    * O código deve ser lido de cima para baixo, onde cada função seja seguida para o próximo nível conforme a ordem das funções seguindo uma 'hierarquia' (Regra Decrescente)
 
-## 3. Estrutura Switch
-
-### 3.1 Evite quando puder
-   * É difícil criar uma estrutura `switch` pequena, pois elas sempre fazem 'n' coisas, o que vai contra a regra 'Faça apenas uma coisa' (2.3), além de ir contra o princípio de 'Aberto-Fechado', pois precisa alterá-lo, adicionando novos `cases` sempre que um novo argumento é adicionado
-
-## 4.1 Parâmetros de funções
+### 2.4 Parâmetros de funções
    * A quantidade ideal de parêmetros para uma função é zero (nulo); depois vem um (mônade); depois dois (díade). Sempre evite três (tríade) parêmtros se possível. Para mais parâmetros (políade), deve se ter um motivo bem especial
 
-#### 4.1.1 Parâmetros lógicos
+#### 2.1.1 Parâmetros lógicos
    * Passar valores booleano como parâmetro não é uma boa prática, pois é um indicativo de que a função faz uma coisa (se for `true`) ou outra (se for `false`)
 
-#### 4.1.2 Parâmetros Mônades
-   * Pode ser usado no contexto de uma pergunta para aquele parâmetro (Exemplo 4.1*) ou você pode estar tranformando-o em outra coisa e retornando-o (Exemplo 4.2*)
+#### 2.1.2 Parâmetros Mônades
+   * Pode ser usado no contexto de uma pergunta para aquele parâmetro (Exemplo 2.1*) ou você pode estar tranformando-o em outra coisa e retornando-o (Exemplo 2.2*)
 
-* Exemplo 4.1*
+* Exemplo 2.1*
 ``` java
 boolean fileExists("MyFile");
 ```
 
-* Exemplo 4.2*
+* Exemplo 2.2*
 ``` java
 InputStream fileOpen("MyFile"); // Transforma a `String` do nome de um arquivo em um valor retornado por InputStream
 ```
 
-#### 4.1.3 Parâmetros Díades
-   * Utiliza-se parâmetros díades quando ambos os valores são 'componentes de um único valor'! (Exemplo 4.3;4.4*)
+#### 2.1.3 Parâmetros Díades
+   * Utiliza-se parâmetros díades quando ambos os valores são 'componentes de um único valor'! (Exemplo 2.3;2.4*)
 
-* Exemplo 4.3*
+* Exemplo 2.3*
 ``` java
 // Bad
 // `outputStream` e `name` não são components do mesmo valor
@@ -235,20 +230,19 @@ writeField(outputStream, name);
 outputStream.writeField(name); // Dessa forma, você transforma o `writeField` em um membro de `outputStream`
 ```
 
-* Exemplo 4.4*
+* Exemplo 2.4*
 ``` java
 new Point(0, 0); // Considerando um plano cartesiano, é natural que receba as coordenadas 'x' e 'y'
 ```
 
-### 4.2 Evite efeitos colaterais
-   * "Sua função promete fazer apenas, mas ela também faz outras coisas encondidas" (Exemplo 4.5*). Garanta que a sua função faça apenas aquilo que ele diz que faz, pois, corre o risco de fazer outra coisa sem perceber
+### 2.2 Evite efeitos colaterais
+   * "Sua função promete fazer apenas, mas ela também faz outras coisas encondidas" (Exemplo 2.5*). Garanta que a sua função faça apenas aquilo que ele diz que faz, pois, corre o risco de fazer outra coisa sem perceber
 
-* Exemplo 4.4*
+* Exemplo 2.4*
 ``` java]
 /*
 A função `checkPassword` efetua uma validaçã da senha de um usuário, porém esta executando a inicialização da sessão ao chamar `Session.initialize()`. Esse é o efeito colateral!
 */
-// Bad
 public class UserValidator {
    private Cryptographer cryptographer;
 
@@ -266,7 +260,9 @@ public class UserValidator {
    }
 }
 
-// Good
+/*
+Dessa forma previne o efeito colateral, apesar de que vai contra o "Faça apenas uma coisa" (2.3)
+*/
 public class UserValidator {
    private Cryptographer cryptographer;
 
@@ -284,3 +280,40 @@ public class UserValidator {
    }
 }
 ```
+
+### 2.3 Separação comando-consulta
+   * As funções devem apenas fazer ou responder algo, mas nunca ambos. Ela deve apenas alterar o estado ou buscar o valor do estado (Exemplo 2.5*)
+
+* Exemplo 2.4*
+``` java
+// Bad
+public boolean set(String attribute, String value);
+
+/*
+Difícil interpretar o que está sendo verificado nesta condição, ele está verificando se o atributo "username" receberu anteriormente o valor "unclebob" ou se o atributo "username" obteve êxito ao receber o valor "unclebob"?
+*/
+if (set("username", "unclebob")) {
+   /* ... */
+}
+
+// Good
+if (attributeExists("username")) {
+   setAttribute("username", "unclebob")
+   /* ... */
+}
+```
+
+## 3. Estrutura Switch
+
+### 3.1 Evite quando puder
+   * É difícil criar uma estrutura `switch` pequena, pois elas sempre fazem 'n' coisas, o que vai contra a regra 'Faça apenas uma coisa' (2.3), além de ir contra o princípio de 'Aberto-Fechado', pois precisa alterá-lo, adicionando novos `cases` sempre que um novo argumento é adicionado
+
+## 4. Exceções
+
+### 4.1 Prefira exceções a retorno de códigos de erro (Reler)
+
+### 4.2 Extraia os blocos `try/catch`
+
+## 5. Evite repetição
+   * POO; Programação Estruturada; Programação Orientada a Aspectos; programação Orientada a Componentes
+   * Acima alguns exemplos de estruturas que ajudam na redução e eleminação de repetição de código
