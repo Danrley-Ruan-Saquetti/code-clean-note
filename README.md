@@ -239,7 +239,7 @@ new Point(0, 0); // Considerando um plano cartesiano, é natural que receba as c
    * "Sua função promete fazer apenas, mas ela também faz outras coisas encondidas" (Exemplo 2.5*). Garanta que a sua função faça apenas aquilo que ele diz que faz, pois, corre o risco de fazer outra coisa sem perceber
 
 * Exemplo 2.4*
-``` java]
+``` java
 /*
 A função `checkPassword` efetua uma validaçã da senha de um usuário, porém esta executando a inicialização da sessão ao chamar `Session.initialize()`. Esse é o efeito colateral!
 */
