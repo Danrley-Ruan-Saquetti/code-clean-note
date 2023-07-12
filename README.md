@@ -203,29 +203,29 @@ Mas se ver apenas `state` solto em um método, pode ser difícil associá-lo à 
 ### 3.1 Evite quando puder
    * É difícil criar uma estrutura `switch` pequena, pois elas sempre fazem 'n' coisas, o que vai contra a regra 'Faça apenas uma coisa' (2.3), além de ir contra o princípio de 'Aberto-Fechado', pois precisa alterá-lo, adicionando novos `cases` sempre que um novo argumento é adicionado
 
-### 3.2 Parâmetros de funções
+## 4.1 Parâmetros de funções
    * A quantidade ideal de parêmetros para uma função é zero (nulo); depois vem um (mônade); depois dois (díade). Sempre evite três (tríade) parêmtros se possível. Para mais parâmetros (políade), deve se ter um motivo bem especial
 
-#### 3.2.1 Parâmetros lógicos
+#### 4.1.1 Parâmetros lógicos
    * Passar valores booleano como parâmetro não é uma boa prática, pois é um indicativo de que a função faz uma coisa (se for `true`) ou outra (se for `false`)
 
-#### 3.2.2 Parâmetros Mônades
-   * Pode ser usado no contexto de uma pergunta para aquele parâmetro (Exemplo 3.1*) ou você pode estar tranformando-o em outra coisa e retornando-o (Exemplo 3.2*)
+#### 4.1.2 Parâmetros Mônades
+   * Pode ser usado no contexto de uma pergunta para aquele parâmetro (Exemplo 4.1*) ou você pode estar tranformando-o em outra coisa e retornando-o (Exemplo 4.2*)
 
-* Exemplo 3.1*
+* Exemplo 4.1*
 ``` java
 boolean fileExists("MyFile");
 ```
 
-* Exemplo 3.2*
+* Exemplo 4.2*
 ``` java
 InputStream fileOpen("MyFile"); // Transforma a `String` do nome de um arquivo em um valor retornado por InputStream
 ```
 
-#### 3.2.3 Parâmetros Díades
-   * Utiliza-se parâmetros díades quando ambos os valores são 'componentes de um único valor'! (Exemplo 3.3;3.4*)
+#### 4.1.3 Parâmetros Díades
+   * Utiliza-se parâmetros díades quando ambos os valores são 'componentes de um único valor'! (Exemplo 4.3;4.4*)
 
-* Exemplo 3.3*
+* Exemplo 4.3*
 ``` java
 // Bad
 // `outputStream` e `name` não são components do mesmo valor
@@ -235,10 +235,52 @@ writeField(outputStream, name);
 outputStream.writeField(name); // Dessa forma, você transforma o `writeField` em um membro de `outputStream`
 ```
 
-* Exemplo 3.4*
+* Exemplo 4.4*
 ``` java
 new Point(0, 0); // Considerando um plano cartesiano, é natural que receba as coordenadas 'x' e 'y'
 ```
 
-#### 3.3 Evite efeitos colaterais
-   * "Sua função promete fazer apenas"
+### 4.2 Evite efeitos colaterais
+   * "Sua função promete fazer apenas, mas ela também faz outras coisas encondidas" (Exemplo 4.5*). Garanta que a sua função faça apenas aquilo que ele diz que faz, pois, corre o risco de fazer outra coisa sem perceber
+
+* Exemplo 4.4*
+``` java]
+/*
+A função `checkPassword` efetua uma validaçã da senha de um usuário, porém esta executando a inicialização da sessão ao chamar `Session.initialize()`. Esse é o efeito colateral!
+*/
+// Bad
+public class UserValidator {
+   private Cryptographer cryptographer;
+
+   public boolean checkPassword(String userName, String password) {
+      user user = UserGateway.findByName(userName);
+      if (user != User.NULL) {
+         String codedPhrase = user.getPhraseEncodedByPassword();
+         String phrase = cryptographer.decrypt(codedPhrase, password);
+         if ("Valid Password".equals(phare)) {
+            Session.initialize();
+            return true;
+         }
+      }
+      return false;
+   }
+}
+
+// Good
+public class UserValidator {
+   private Cryptographer cryptographer;
+
+   public boolean checkPasswordAndInitializeSession(String userName, String password) {
+      user user = UserGateway.findByName(userName);
+      if (user != User.NULL) {
+         String codedPhrase = user.getPhraseEncodedByPassword();
+         String phrase = cryptographer.decrypt(codedPhrase, password);
+         if ("Valid Password".equals(phare)) {
+            Session.initialize();
+            return true;
+         }
+      }
+      return false;
+   }
+}
+```
